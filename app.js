@@ -48,7 +48,30 @@ window.onload = function(){
     var enemy_width = 35;
     var enemy_height = 35;
 
-    
+    // let healthkits = [];
+    // const healthkitImage = new Image();
+    // healthkitImage.src = "https://image.ibb.co/gFvSEU/first_aid_kit.png";
+    // const healthkitWidth = 36;
+    // const healthkitHeight = 36;
+
+    function player(x,y,width,height){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+
+        this.draw = function(){
+            c.beginPath();
+            c.drawImage(playerImg, mouse.x-player_width, mouse.y-player_height);
+        };
+
+        this.update = function(){
+            this.draw();
+        };
+    }
+
+
+
 
 }
 }
