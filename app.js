@@ -107,6 +107,39 @@ window.onload = function(){
             this.draw();
         };
     }
+    function healthKit(x, y, width, height, speed){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.speed = speed;
+
+        this.draw = function(){
+            c.beginPath();
+            c.drawImage(healthKitImg, this.x, this.y);
+        };
+
+        this.update = function(){
+            this.y += this.speed;
+            this.draw();
+        };
+    }
+
+    var player = new player(mouse.x, mouse.y, player_width, player_height);
+
+    function drawEnemies(){
+        for (var _= 0; _<4; _++){
+            var x = Math.random()*(innerWidth-enemy_width);
+            var y = -enemy_height;
+            var width = enemy_width;
+            var height = enemy_height;
+            var speed = Math.random()*2;
+            var _enemy = new Enemy(x, y, width, height,speed);
+            _enemy.push(_enemy);
+        };
+    }
+    setInterval(drawEnemies, 1234);
+    
 
 
 
