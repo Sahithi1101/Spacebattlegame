@@ -37,22 +37,22 @@ window.onload = function(){
     var healthpoints = 100;
     playerImg.src = "https://static.vecteezy.com/system/resources/previews/003/087/006/original/cartoon-spaceship-illustration-vector.jpg";
 
-    var bullets = [];
+    var _bullets = [];
     var bullet_width = 10;
     var bullet_height = 15;
     var bullet_speed = 8;
 
-    var enemies = [];
+    var _enemies = [];
     var enemyImg = new Image();
     enemyImg.src = "https://png.pngtree.com/png-vector/20240807/ourlarge/pngtree-cartoon-doodle-alien-spaceship-png-image_13150549.png";
     var enemy_width = 35;
     var enemy_height = 35;
 
-    // let healthkits = [];
-    // const healthkitImage = new Image();
-    // healthkitImage.src = "https://image.ibb.co/gFvSEU/first_aid_kit.png";
-    // const healthkitWidth = 36;
-    // const healthkitHeight = 36;
+    let _healthkits = [];
+    const healthkitImage = new Image();
+    healthkitImage.src = "https://image.ibb.co/gFvSEU/first_aid_kit.png";
+    const healthkitWidth = 36;
+    const healthkitHeight = 36;
 
     function player(x,y,width,height){
         this.x = x;
@@ -125,7 +125,7 @@ window.onload = function(){
         };
     }
 
-    var player = new player(mouse.x, mouse.y, player_width, player_height);
+    var __player = new Player(mouse.x, mouse.y, player_width, player_height);
 
     function drawEnemies(){
         for (var _= 0; _<4; _++){
@@ -134,15 +134,104 @@ window.onload = function(){
             var width = enemy_width;
             var height = enemy_height;
             var speed = Math.random()*2;
-            var _enemy = new Enemy(x, y, width, height,speed);
-            _enemy.push(_enemy);
+            var __enemy = new Enemy(x, y, width, height,speed);
+            _enemy.push(__enemy);
         };
     }
     setInterval(drawEnemies, 1234);
+
+    function drawHealthKits(){
+        for (var_ = 0; _<1; _++){
+            var x = Math.random()*(innerWidth-enemy_width);
+            var y = -enemy_height; 
+            var width = healthkit_width;
+            var height = healthkit_height;
+            var speed = Math.random()*2.6;
+            var __healthkit = new Healthkit(x, y, width, height, speed);
+            _healthkits.push(__healthkit); 
+    }
+  }
+  setInterval(drawHealthkits, 15000);
+
+  function fire(){ 
+    for (var _ = 0; _<1; _++){
+      var x = mouse.x-bullet_width/2;
+      var y = mouse.y-player_height;
+      var __bullet = new Bullet(x, y, bullet_width, bullet_height, bullet_speed);
+      _bullets.push(__bullet);
+    }
+  }setInterval(fire, 200);
     
+  canvas.addEventListener("click", function(){
+  });
+    
+  function collision(a,b){
+    return a.x < b.x + b.width &&
+           a.x + a.width > b.x &&
+           a.y < b.y + b.height &&
+           a.y + a.height > b.y;
+  }
+  c.font = "1em Arial";
+  
+  function stoperror() {
+    return true;
+  }  
+  window.onerror = stoperror;
 
+  function animate(){
+    requestAnimationFrame(animate); 
+    c.beginPath(); 
+    c.clearRect(0,0,innerWidth,innerHeight); 
+    c.fillStyle = 'white';
+    c.fillText("Health: " + health, 5, 20); 
+    c.fillText("Score: " + score, innerWidth-100, 20); 
+    
+    _player.update();
 
+    for (var i=0; i < _bullets.length; i++){
+      _bullets[i].update();
+      if (_bullets[i].y < 0){
+        _bullets.splice(i, 1);
+      }
+    }
 
-
-}
-}
+    for (var k=0; k < _enemies.length; k++){
+      _enemies[k].update();
+      if(_enemies[k].y > innerHeight){
+        _enemies.splice(k, 1);
+        health -= 10;
+      if(health == 0){
+        alert("You DIED!\nYour score was "+score);
+        startGame();
+       }
+      }
+    }
+  
+    for(var j = _enemies.length-1; j >= 0; j--){
+      for(var l = _bullets.length-1; l >= 0; l--){
+        if(collision(_enemies[j], _bullets[l])){
+          _enemies.splice(j, 1);
+          _bullets.splice(l, 1);
+          score++;
+        }
+      }
+    }
+    
+    for(var h=0; h < _healthkits.length; h++){
+      _healthkits[h].update();
+    }
+    for(var hh = _healthkits.length-1; hh >= 0; hh--){
+      for(var hhh = _bullets.length-1; hhh >= 0; hhh--){
+        if(collision(_healthkits[hh], _bullets[hhh])){
+          _healthkits.splice(hh, 1);
+          _bullets.splice(hhh, 1);
+          health += 10;
+        }
+      }
+    } 
+    
+  }
+  animate();
+  }startGame();
+  }; 
+    
