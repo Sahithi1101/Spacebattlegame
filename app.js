@@ -35,12 +35,20 @@ window.onload = function(){
     var playerImg = new Image();
     var score = 0;
     var healthpoints = 100;
-    playerImg.src = "https://static.vecteezy.com/system/resources/previews/003/087/006/original/cartoon-spaceship-illustration-vector.jpg"
+    playerImg.src = "https://static.vecteezy.com/system/resources/previews/003/087/006/original/cartoon-spaceship-illustration-vector.jpg";
 
     var bullets = [];
     var bullet_width = 10;
     var bullet_height = 15;
     var bullet_speed = 8;
+
+    var enemies = [];
+    var enemyImg = new Image();
+    enemyImg.src = "https://png.pngtree.com/png-vector/20240807/ourlarge/pngtree-cartoon-doodle-alien-spaceship-png-image_13150549.png";
+    var enemy_width = 35;
+    var enemy_height = 35;
+
+    
 
 }
 }
