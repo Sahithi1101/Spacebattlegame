@@ -90,6 +90,24 @@ window.onload = function(){
         };
     }
 
+    function Enemy(x,y,width,height,speed){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.speed = speed;
+
+        this.draw = function(){
+            c.beginPath();
+            c.drawImage(enemyImg, this.x, this.y);
+        };
+
+        this.update = function(){
+            this.y += this.speed;
+            this.draw();
+        };
+    }
+
 
 
 
